@@ -1,23 +1,138 @@
 // app/api/setWordOfTheDay/route.js
+import { db } from "@/db";
 import { NextResponse } from "next/server";
-import { open } from "sqlite";
-import sqlite3 from "sqlite3";
 
-const words = ["hello", "hi"];
+const words = [
+  "abstract",
+  "arguments",
+  "await",
+  "boolean",
+  "break",
+  "byte",
+  "case",
+  "catch",
+  "char",
+  "class",
+  "const",
+  "continue",
+  "debugger",
+  "default",
+  "delete",
+  "do",
+  "double",
+  "else",
+  "enum",
+  "eval",
+  "export",
+  "extends",
+  "false",
+  "final",
+  "finally",
+  "float",
+  "for",
+  "function",
+  "goto",
+  "if",
+  "implements",
+  "import",
+  "in",
+  "instanceof",
+  "int",
+  "interface",
+  "let",
+  "long",
+  "native",
+  "new",
+  "null",
+  "package",
+  "private",
+  "protected",
+  "public",
+  "return",
+  "short",
+  "static",
+  "super",
+  "switch",
+  "synchronized",
+  "this",
+  "throw",
+  "throws",
+  "transient",
+  "true",
+  "try",
+  "typeof",
+  "var",
+  "void",
+  "volatile",
+  "while",
+  "with",
+  "yield",
+
+  // Commonly used terms
+  "Array",
+  "Date",
+  "eval",
+  "function",
+  "hasOwnProperty",
+  "Infinity",
+  "isFinite",
+  "isNaN",
+  "isPrototypeOf",
+  "length",
+  "Math",
+  "NaN",
+  "name",
+  "Number",
+  "Object",
+  "prototype",
+  "String",
+  "toString",
+  "undefined",
+  "valueOf",
+
+  // Common methods
+  "concat",
+  "copyWithin",
+  "entries",
+  "every",
+  "fill",
+  "filter",
+  "find",
+  "findIndex",
+  "flat",
+  "flatMap",
+  "forEach",
+  "from",
+  "includes",
+  "indexOf",
+  "join",
+  "keys",
+  "lastIndexOf",
+  "map",
+  "pop",
+  "push",
+  "reduce",
+  "reduceRight",
+  "reverse",
+  "shift",
+  "slice",
+  "some",
+  "sort",
+  "splice",
+  "unshift",
+  "values",
+];
 
 export async function GET() {
-  const db = await open({
-    filename: "./word-of-the-day.db",
-    driver: sqlite3.Database,
-  });
-
   const currentDate = new Date().toISOString().split("T")[0];
   const randomWord = words[Math.floor(Math.random() * words.length)];
 
-  await db.run(
-    "INSERT OR REPLACE INTO word_of_the_day (date, word) VALUES (?, ?)",
-    [currentDate, randomWord]
-  );
+  await db.wordOfTheDay.create({
+    data: {
+      date: currentDate,
+      word: randomWord,
+    },
+  });
 
   return NextResponse.json({
     message: "Word of the day set",
