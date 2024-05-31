@@ -14,7 +14,7 @@ datasource db {
 }
 
 model wordOfTheDay {
-  id   String   @id @default(cuid())
-  date DateTime
+  id   String @id @default(cuid())
+  date String
   word String
 }
