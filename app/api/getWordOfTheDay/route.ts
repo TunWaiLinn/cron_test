@@ -3,7 +3,7 @@ import { db } from "@/db";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const currentDate = new Date().toISOString().split("T")[0];
+  const currentDate = new Date().toISOString();
   const result = await db.wordOfTheDay.findFirst({
     where: {
       date: currentDate,

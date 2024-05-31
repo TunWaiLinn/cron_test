@@ -124,7 +124,7 @@ const words = [
 ];
 
 export async function GET() {
-  const currentDate = new Date().toISOString().split("T")[0];
+  const currentDate = new Date().toISOString();
   const randomWord = words[Math.floor(Math.random() * words.length)];
 
   await db.wordOfTheDay.create({
